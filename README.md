@@ -27,9 +27,9 @@ Addtional Implementations:
 
 ## G3Docs
 
-* Object Detection  API Docs (object_detection/README.md)
-* Slim Docs (slim/README.md)
-* Layer model Docs (layer_models/README.md)
+* [Object Detection  API Docs](object_detection/README.md)
+* [Slim Docs](slim/README.md)
+* [Layer model Docs](layer_models/README.md)
 
 ## License
 
