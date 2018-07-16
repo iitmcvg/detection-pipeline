@@ -1,0 +1,91 @@
+syntax = "proto2";
+
+package object_detection.protos;
+
+// Message for configuring the localization loss, classification loss and hard
+// example miner used for training object detection models. See core/losses.py
+// for details
+message Loss {
+  // Classification loss to use.
+  optional ClassificationLoss classification_loss = 2;
+
+  // Classification loss weight.
+  optional float classification_weight = 4 [default=1.0];
+
+  // If not left to default, applies random example sampling.
+  optional RandomExampleSampler random_example_sampler = 6;
+}
+
+
+// Configuration for class prediction loss function.
+message ClassificationLoss {
+  oneof classification_loss {
+    WeightedSigmoidClassificationLoss weighted_sigmoid = 1;
+    WeightedSoftmaxClassificationLoss weighted_softmax = 2;
+    WeightedSoftmaxClassificationAgainstLogitsLoss weighted_logits_softmax = 5;
+    BootstrappedSigmoidClassificationLoss bootstrapped_sigmoid = 3;
+    SigmoidFocalClassificationLoss weighted_sigmoid_focal = 4;
+  }
+}
+
+// Classification loss using a sigmoid function over class predictions.
+message WeightedSigmoidClassificationLoss {
+  // DEPRECATED, do not use.
+  // Output loss per anchor.
+  optional bool anchorwise_output = 1 [default=false];
+}
+
+// Sigmoid Focal cross entropy loss as described in
+// https://arxiv.org/abs/1708.02002
+message SigmoidFocalClassificationLoss {
+  // DEPRECATED, do not use.
+  optional bool anchorwise_output = 1 [default = false];
+  // modulating factor for the loss.
+  optional float gamma = 2 [default = 2.0];
+  // alpha weighting factor for the loss.
+  optional float alpha = 3;
+}
+
+// Classification loss using a softmax function over class predictions.
+message WeightedSoftmaxClassificationLoss {
+  // DEPRECATED, do not use.
+  // Output loss per anchor.
+  optional bool anchorwise_output = 1 [default=false];
+  // Scale logit (input) value before calculating softmax classification loss.
+  // Typically used for softmax distillation.
+  optional float logit_scale = 2 [default = 1.0];
+}
+
+// Classification loss using a softmax function over class predictions and
+// a softmax function over the groundtruth labels (assumed to be logits).
+message WeightedSoftmaxClassificationAgainstLogitsLoss {
+  // DEPRECATED, do not use.
+  optional bool anchorwise_output = 1 [default = false];
+  // Scale and softmax groundtruth logits before calculating softmax
+  // classification loss. Typically used for softmax distillation with teacher
+  // annotations stored as logits.
+  optional float logit_scale = 2 [default = 1.0];
+}
+
+// Classification loss using a sigmoid function over the class prediction with
+// the highest prediction score.
+message BootstrappedSigmoidClassificationLoss {
+  // Interpolation weight between 0 and 1.
+  optional float alpha = 1;
+
+  // Whether hard boot strapping should be used or not. If true, will only use
+  // one class favored by model. Othewise, will use all predicted class
+  // probabilities.
+  optional bool hard_bootstrap = 2 [default=false];
+
+  // DEPRECATED, do not use.
+  // Output loss per anchor.
+  optional bool anchorwise_output = 3 [default=false];
+}
+
+// Configuration for random example sampler.
+message RandomExampleSampler {
+  // The desired fraction of positive samples in batch when applying random
+  // example sampling.
+  optional float positive_sample_fraction = 1 [default = 0.01];
+}

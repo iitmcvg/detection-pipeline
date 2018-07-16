@@ -1,0 +1,12 @@
+syntax = "proto2";
+
+package layer_models.protos;
+
+import "layer_models/protos/nets.proto";
+
+// Top level configuration for DetectionModels.
+message Model {
+   required string name= 1;
+   required int32 num_classes = 3;
+   required ImageResizer image_resizer = 4;
+}
