@@ -10,12 +10,12 @@ Addtional Implementations:
 
 * Unofficial nets, extractors implemented here too. 
 
-    Feature Extractors added:
+    Feature Extractors added:  
         1. Xception (41,65,71)  
         2. Inception_Resnet_v1  
         3. Squeezenet  
 
-    Nets (detectors) added:
+    Nets (detectors) added:  
         1. Retinanet (now part of official too)  
         2. YOLO v3  
 
