@@ -4,7 +4,7 @@ Forked out version of Tensorflow Models.
 
 Meant to keep upstream with child projects.
 
-Used for experimentation at _CVI IIT Madras_.
+Used for experimentation at **_CVI IIT Madras_**.
 
 Addtional Implementations:
 
